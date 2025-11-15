@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | ZeE Store</title>
+  <title>Admin Login | ZeE Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -65,6 +65,33 @@
       transform: rotate(-5deg);
     }
 
+    /* Back button */
+    .back-btn {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 0.95em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+      backdrop-filter: blur(5px);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: white;
+      transform: translateX(-50%) translateY(-2px);
+    }
+
     /* Main container */
     .main-content {
       flex: 1;
@@ -96,6 +123,21 @@
         opacity: 1;
         transform: translateY(0);
       }
+    }
+
+    .admin-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      font-size: 1.3em;
+      font-weight: 700;
+      text-align: center;
     }
 
     h1 {
@@ -183,39 +225,20 @@
       box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
     }
 
-    .admin-btn {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 15px;
-    }
-
-    .admin-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .signup-text {
+    .user-login-text {
       text-align: center;
       margin-top: 20px;
       color: #666;
       font-size: 0.95em;
     }
 
-    .signup-text a {
+    .user-login-text a {
       color: #667eea;
       text-decoration: none;
       font-weight: 600;
     }
 
-    .signup-text a:hover {
+    .user-login-text a:hover {
       text-decoration: underline;
     }
 
@@ -267,6 +290,10 @@
         top: 15px;
       }
 
+      .back-btn {
+        top: 80px;
+      }
+
       .container {
         padding: 30px 25px;
       }
@@ -278,34 +305,37 @@
   <div class="header-brand">Powered by Banua</div>
   <div class="header-logo">ZeE</div>
 
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">← Back to User Login</a>
+
   <!-- Main Content -->
   <div class="main-content">
     <div class="container">
-      <h1>WELCOME TO <span>ZeE Store</span></h1>
+      <div class="admin-badge">
+        🔐 ADMIN ACCESS
+      </div>
+
+      <h1>ADMIN <span>Login</span></h1>
 
       <!-- Message box -->
       <div id="message" class="message"></div>
 
       <form class="login-form">
         <div class="input-group">
-          <label for="email">Email or Number</label>
-          <input type="text" id="email" name="email" placeholder="Enter your email or number" required>
+          <label for="email">Admin Email</label>
+          <input type="text" id="email" name="email" placeholder="Enter admin email" required>
         </div>
 
         <div class="input-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          <label for="password">Admin Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter admin password" required>
         </div>
 
-        <button type="submit" class="login-btn">Login</button>        
+        <button type="submit" class="login-btn">Login as Admin</button>
 
-        <button type="button" class="admin-btn" onclick="window.location.href='admin.html'">
-          🔐 Log in as Admin
-        </button>
-
-        <p class="signup-text">
-          Don't have an account?
-          <a href="signup.html">Sign up</a>
+        <p class="user-login-text">
+          Not an admin?
+          <a href="index.html">User Login</a>
         </p>
       </form>
     </div>
@@ -346,46 +376,39 @@
   </div>
 
   <script>
+    // Hardcoded admin credentials (only these credentials work)
+    const ADMIN_EMAIL = "nauxly12345@gmail.com";
+    const ADMIN_PASSWORD = "nauxxl12345";
+
     document.querySelector(".login-form").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const messageBox = document.getElementById("message");
       messageBox.style.display = "none";
 
-      const data = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value
-      };
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-      try {
-        const response = await fetch("http://localhost:5000/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
+      // Check hardcoded admin credentials
+      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        messageBox.textContent = "✅ Admin login successful! Redirecting...";
+        messageBox.className = "message success";
+        messageBox.style.display = "block";
 
-        const result = await response.json();
+        // Save admin to localStorage
+        const adminData = {
+          email: ADMIN_EMAIL,
+          isAdmin: true,
+          loginTime: new Date().toISOString()
+        };
+        localStorage.setItem("admin", JSON.stringify(adminData));
 
-        if (result.success) {
-          messageBox.textContent = "✅ Login successful! Redirecting...";
-          messageBox.className = "message success";
-          messageBox.style.display = "block";
-
-          // Save user to localStorage
-          localStorage.setItem("user", JSON.stringify(result.user));
-
-          // Redirect after 2 seconds - CHANGED FROM index.html to home.html
-          setTimeout(() => {
-            window.location.href = "home.html";
-          }, 2000);
-        } else {
-          messageBox.textContent = result.message || "Login failed!";
-          messageBox.className = "message error";
-          messageBox.style.display = "block";
-        }
-      } catch (error) {
-        console.error("Login error:", error);
-        messageBox.textContent = "An error occurred. Please try again.";
+        // Redirect after 1.5 seconds to home/dashboard
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 1500);
+      } else {
+        messageBox.textContent = "❌ Invalid admin credentials! Access denied.";
         messageBox.className = "message error";
         messageBox.style.display = "block";
       }
