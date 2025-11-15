@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | ZeE Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding-top: 80px;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .navbar-logo {
+      font-size: 1.8em;
+      font-weight: 700;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      background-clip: text;           /* ✅ Standard property */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Brush Script MT', cursive;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .navbar-links a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95em;
+      transition: all 0.3s ease;
+      padding: 8px 15px;
+      border-radius: 8px;
+    }
+
+    .navbar-links a:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .navbar-right {
+      display: flex;
+      gap: 15px;
+    }
+
+    .back-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95em;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      background-clip: text;           /* ✅ Standard property */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .content {
+      line-height: 1.8;
+      font-size: 1.05em;
+      color: #333;
+    }
+
+    .content p {
+      margin-bottom: 20px;
+    }
+
+    .highlight {
+      background: rgba(102, 126, 234, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      margin: 30px 0;
+      border-left: 5px solid #667eea;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+        padding: 25px 20px;
+      }
+
+      .navbar {
+        flex-wrap: wrap;
+        padding: 10px 20px;
+      }
+
+      .navbar-links {
+        display: none;
+      }
+
+      .navbar-logo {
+        font-size: 1.5em;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-logo">ZeE Store</div>
+      <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="aboutus.html" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">About Us</a>
+        <a href="contactus.html">Contact Us</a>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <a href="index.html" class="back-btn">← Back to Store</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>About Us</h1>
+    <div class="content">
+      <p>
+        ZeE Store is your go-to destination for the latest technology products and gadgets. 
+        We are passionate about bringing innovative, high-quality, and useful tech items to our customers. 
+        From smart home devices to everyday electronics, we carefully select products that make life easier, 
+        more enjoyable, and more connected.
+      </p>
+
+      <div class="highlight">
+        <p><strong>At ZeE Store, we believe technology should be simple, fun, and accessible to everyone.</strong></p>
+      </div>
+
+      <p>
+        Our goal is to provide excellent service, great value, and a seamless shopping experience for all 
+        tech enthusiasts. Whether you're looking for the newest gadgets or practical tech solutions, 
+        ZeE Store has something for you.
+      </p>
+
+      <p>
+        We understand that technology is constantly evolving, and so are the needs of our customers. 
+        That's why we stay up-to-date with the latest trends and innovations in the tech world, ensuring 
+        that our product selection reflects the best that technology has to offer.
+      </p>
+
+      <p>
+        Our team is dedicated to curating a diverse range of products that cater to different lifestyles 
+        and preferences. From professionals seeking productivity tools to enthusiasts looking for 
+        cutting-edge entertainment devices, we have carefully chosen each item in our catalog.
+      </p>
+
+      <p>
+        Thank you for choosing ZeE Store. We're committed to making your tech shopping experience 
+        exceptional, and we look forward to serving you with the best products and customer service 
+        in the industry.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

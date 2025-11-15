@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation | ZeE Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 800px;
+      width: 100%;
+      padding: 40px;
+      animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-icon {
+      text-align: center;
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: bounce 1s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+
+    .thank-you-message {
+      text-align: center;
+      color: #666;
+      font-size: 1.1em;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .divider {
+      border: none;
+      border-top: 2px dashed #e0e0e0;
+      margin: 30px 0;
+    }
+
+    .receipt-section {
+      background: #f9f9f9;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .receipt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .order-number {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .order-date {
+      color: #666;
+      font-size: 0.95em;
+    }
+
+    .section-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 8px;
+    }
+
+    .order-items {
+      margin-bottom: 20px;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-name {
+      font-weight: 500;
+      color: #333;
+      flex: 1;
+    }
+
+    .item-qty {
+      color: #666;
+      margin: 0 15px;
+    }
+
+    .item-price {
+      font-weight: 600;
+      color: #667eea;
+      min-width: 100px;
+      text-align: right;
+    }
+
+    .total-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+
+    .shipping-info {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      border: 2px solid #e0e0e0;
+    }
+
+    .info-row {
+      display: flex;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #333;
+      min-width: 140px;
+    }
+
+    .info-value {
+      color: #666;
+      flex: 1;
+    }
+
+    .home-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 30px;
+    }
+
+    .home-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      .thank-you-message {
+        font-size: 1em;
+      }
+
+      .order-number {
+        font-size: 1.1em;
+      }
+
+      .item-name {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-icon">✅</div>
+    <h1>Thank You for Your Order!</h1>
+    <p class="thank-you-message">
+      Shop again. Your order will be processed and will be shipped and delivered!
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="receipt-section">
+      <div class="receipt-header">
+        <div class="order-number">Order #<span id="order-number"></span></div>
+        <div class="order-date" id="order-date"></div>
+      </div>
+
+      <div class="section-title">Order Items</div>
+      <div class="order-items" id="order-items"></div>
+
+      <div class="total-section">
+        <div class="total-row">
+          <span>Total Amount:</span>
+          <span id="total-amount">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shipping-info">
+      <div class="section-title">Shipping Information</div>
+      <div class="info-row">
+        <div class="info-label">Name:</div>
+        <div class="info-value" id="ship-name"></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Address:</div>
+        <div class="info-value" id="ship-address"></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">City:</div>
+        <div class="info-value" id="ship-city"></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Province:</div>
+        <div class="info-value" id="ship-province"></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">ZIP Code:</div>
+        <div class="info-value" id="ship-zip"></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Country:</div>
+        <div class="info-value" id="ship-country"></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Phone:</div>
+        <div class="info-value" id="ship-phone"></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Email:</div>
+        <div class="info-value" id="ship-email"></div>
+      </div>
+    </div>
+
+    <button class="home-btn" onclick="goHome()">🏠 Return to Home</button>
+  </div>
+
+  <script>
+    // Load order data from sessionStorage
+    const orderData = JSON.parse(sessionStorage.getItem('lastOrder'));
+
+    if (!orderData) {
+      // If no order data, redirect to home
+      window.location.href = 'index.html';
+    } else {
+      // Display order number and date
+      document.getElementById('order-number').textContent = orderData.orderNumber;
+      document.getElementById('order-date').textContent = orderData.date;
+
+      // Display order items
+      const itemsContainer = document.getElementById('order-items');
+      orderData.items.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'order-item';
+        itemDiv.innerHTML = `
+          <div class="item-name">${item.name}</div>
+          <div class="item-qty">x${item.qty}</div>
+          <div class="item-price">$${(item.price * item.qty).toFixed(2)}</div>
+        `;
+        itemsContainer.appendChild(itemDiv);
+      });
+
+      // Display total
+      document.getElementById('total-amount').textContent = '₱' + orderData.total.toFixed(2);
+
+      // Display shipping information
+      const addr = orderData.address;
+      document.getElementById('ship-name').textContent = addr.completeName || 'N/A';
+      document.getElementById('ship-address').textContent = addr.street || 'N/A';
+      document.getElementById('ship-city').textContent = addr.city || 'N/A';
+      document.getElementById('ship-province').textContent = addr.province || 'N/A';
+      document.getElementById('ship-zip').textContent = addr.zipCode || 'N/A';
+      document.getElementById('ship-country').textContent = addr.country || 'N/A';
+      document.getElementById('ship-phone').textContent = addr.phoneNumber || 'N/A';
+      document.getElementById('ship-email').textContent = addr.email || 'N/A';
+    }
+
+    function goHome() {
+      // Clear order data
+      sessionStorage.removeItem('lastOrder');
+      // Return to home page
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

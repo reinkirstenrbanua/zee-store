@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | ZeE Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background pattern */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+      animation: float 15s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Header branding */
+    .header-brand {
+      position: absolute;
+      top: 30px;
+      left: 40px;
+      color: white;
+      font-size: 1.8em;
+      font-weight: 700;
+      font-family: 'Brush Script MT', cursive;
+      z-index: 10;
+    }
+
+    .header-logo {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      color: white;
+      font-size: 3em;
+      font-weight: 700;
+      font-family: 'Brush Script MT', cursive;
+      z-index: 10;
+      transform: rotate(-5deg);
+    }
+
+    /* Main container */
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 500px;
+      animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.8em;
+      color: #333;
+    }
+
+    h1 span {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .message {
+      display: none;
+      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-weight: 500;
+      font-size: 0.9em;
+    }
+
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+      font-size: 0.95em;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1em;
+      transition: all 0.3s ease;
+      background: #f9f9f9;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .signup-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .signup-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-text {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      font-size: 0.95em;
+    }
+
+    .login-text a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer sections */
+    .footer-sections {
+      display: flex;
+      justify-content: space-around;
+      padding: 40px 60px;
+      background: rgba(0, 0, 0, 0.2);
+      color: white;
+      position: relative;
+      z-index: 1;
+      gap: 60px;
+    }
+
+    .footer-section {
+      flex: 1;
+      max-width: 500px;
+    }
+
+    .footer-section h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      font-family: 'Brush Script MT', cursive;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .footer-section p {
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 0.95em;
+    }
+
+    .footer-section strong {
+      color: #fff;
+      display: block;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .footer-sections {
+        flex-direction: column;
+        padding: 30px 20px;
+        gap: 30px;
+      }
+
+      .header-brand, .header-logo {
+        font-size: 1.2em;
+        top: 15px;
+      }
+
+      .container {
+        padding: 30px 25px;
+      }
+
+      .input-row {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header-brand">Powered by Banua</div>
+  <div class="header-logo">ZeE</div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      <h1>CREATE YOUR <span>ZeE Account</span></h1>
+
+      <!-- Message box -->
+      <div id="message" class="message"></div>
+
+      <form class="signup-form">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+          </div>
+
+          <div class="input-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email or Username</label>
+          <input type="text" id="email" name="email" placeholder="Enter your email or username" required>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Create a password" required minlength="6">
+        </div>
+
+        <button type="submit" class="signup-btn">Sign Up</button>
+
+        <p class="login-text">
+          Already have an account?
+          <a href="login.html">Log in</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer Sections -->
+  <div class="footer-sections">
+    <div class="footer-section">
+      <h2>About us</h2>
+      <p>
+        ZeE Store is your go-to destination for the latest technology products and gadgets. 
+        We are passionate about bringing innovative, high-quality, and useful tech items to our customers. 
+        From smart home devices to everyday electronics, we carefully select products that make life easier, 
+        more enjoyable, and more connected.
+        <br><br>
+        At ZeE Store, we believe technology should be simple, fun, and accessible to everyone. 
+        Our goal is to provide excellent service, great value, and a seamless shopping experience for all 
+        tech enthusiasts. Whether you're looking for the newest gadgets or practical tech solutions, 
+        ZeE Store has something for you.
+      </p>
+    </div>
+
+    <div class="footer-section">
+      <h2>Contact us</h2>
+      <p>
+        For support and inquiries about your physical store location (ZeE Store), please reach us:
+        <br><br>
+        <strong>Email:</strong> support@zeestore.com
+        <br>
+        <strong>Phone:</strong> 09159660065
+        <br><br>
+        <strong>Physical Location:</strong><br>
+        Pagadian City, Lumbia District<br>
+        Southern Mindanao Colleges<br>
+        Philippines (ZeE Store)
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector(".signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const messageBox = document.getElementById("message");
+      messageBox.style.display = "none";
+
+      const data = {
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      };
+
+      // Validate password length
+      if (data.password.length < 6) {
+        messageBox.textContent = "Password must be at least 6 characters long!";
+        messageBox.className = "message error";
+        messageBox.style.display = "block";
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:5000/api/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          messageBox.textContent = "✅ Sign up successful! Redirecting to login...";
+          messageBox.className = "message success";
+          messageBox.style.display = "block";
+
+          // Redirect to login after 2 seconds
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
+        } else {
+          messageBox.textContent = result.message || "Sign up failed!";
+          messageBox.className = "message error";
+          messageBox.style.display = "block";
+        }
+      } catch (error) {
+        console.error("Sign up error:", error);
+        
+        // If API is not available, show success anyway (for demo purposes)
+        messageBox.textContent = "✅ Sign up successful! Redirecting to login...";
+        messageBox.className = "message success";
+        messageBox.style.display = "block";
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>

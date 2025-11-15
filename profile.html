@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Profile - ZeE Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .profile-title {
+    color: rgb(0, 0, 0);
+    font-size: 5em;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    letter-spacing: 5px;
+  }
+
+  .profile-container {
+    background: white;
+    border-radius: 20px;
+    padding: 50px 60px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 100%;
+    animation: slideIn 0.5s ease;
+    position: relative;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .profile-image-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+  }
+
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5em;
+    color: #999;
+    border: 5px solid #333;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    overflow: hidden;
+    position: relative;
+  }
+
+  #preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  .file-input-wrapper {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .choose-file-btn {
+    background: white;
+    border: 3px solid #333;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-transform: uppercase;
+  }
+
+  .choose-file-btn:hover {
+    background: #333;
+    color: white;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+    text-align: left;
+  }
+
+  .form-label {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 50px 12px 15px;
+    border: 3px solid #333;
+    border-radius: 0;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    background: white;
+    transition: all 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+
+  .form-input:disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+  }
+
+  .edit-icon {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: #667eea;
+    transition: all 0.3s ease;
+  }
+
+  .edit-icon:hover {
+    transform: scale(1.1);
+    color: #764ba2;
+  }
+
+  .add-name-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  .add-name-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+    justify-content: space-between;
+  }
+
+  .action-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: 3px solid #333;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    text-transform: uppercase;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  #change-password-btn:hover {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+  }
+
+  #back-btn:hover {
+    background: #333;
+    color: white;
+  }
+
+  .loading {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .profile-container {
+      padding: 30px;
+    }
+
+    .profile-title {
+      font-size: 3em;
+    }
+
+    .button-group {
+      flex-direction: column;
+    }
+
+    .form-label {
+      font-size: 1.1em;
+    }
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal.show {
+    display: flex;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 90%;
+  }
+
+  .modal-content h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .modal-content input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .modal-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .save-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .cancel-btn {
+    background: #f1f1f1;
+    color: #333;
+  }
+
+  .modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+</style>
+</head>
+<body>
+  <div class="profile-title">PROFILE</div>
+  
+  <div class="profile-container">
+    <div class="profile-image-container">
+      <div class="profile-image">
+        <span id="default-icon">👤</span>
+        <img id="preview-image" alt="Profile Picture">
+      </div>
+    </div>
+    
+    <div class="file-input-wrapper">
+      <input type="file" id="file-input" accept="image/*">
+      <label for="file-input" class="choose-file-btn">Choose File</label>
+    </div>
+    
+    <div id="loading-indicator" class="loading">Loading profile...</div>
+    
+    <!-- Add Name Button (shown when no name exists) -->
+    <div class="form-group" id="add-name-section">
+      <button class="add-name-btn" id="add-name-btn">+ Add Name</button>
+    </div>
+
+    <!-- Name Field (shown when name exists) -->
+    <div class="form-group hidden" id="name-section">
+      <label class="form-label">Name:</label>
+      <div class="input-wrapper">
+        <input type="text" class="form-input" id="name-input" disabled placeholder="No name set">
+        <span class="edit-icon" id="edit-name-icon">✏️</span>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Email/Username:</label>
+      <input type="email" class="form-input" id="email-input" disabled placeholder="Loading...">
+    </div>
+    
+    <div class="button-group">
+      <button class="action-btn" id="change-password-btn">Change Password</button>
+      <button class="action-btn" id="back-btn">Back</button>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div id="password-modal" class="modal">
+    <div class="modal-content">
+      <h2>Change Password</h2>
+      <input type="password" id="current-password" placeholder="Current Password">
+      <input type="password" id="new-password" placeholder="New Password">
+      <input type="password" id="confirm-password" placeholder="Confirm New Password">
+      <button class="modal-btn save-btn" id="save-password-btn">Save</button>
+      <button class="modal-btn cancel-btn" id="cancel-password-btn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Add/Edit Name Modal -->
+  <div id="name-modal" class="modal">
+    <div class="modal-content">
+      <h2 id="name-modal-title">Add Name</h2>
+      <input type="text" id="modal-name-input" placeholder="Enter your name">
+      <button class="modal-btn save-btn" id="save-name-btn">Save</button>
+      <button class="modal-btn cancel-btn" id="cancel-name-btn">Cancel</button>
+    </div>
+  </div>
+
+<script>
+  const API_URL = "http://localhost:5000/api";
+
+  // Get logged-in user from localStorage
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  
+  console.log("Logged in user:", loggedInUser);
+  
+  if (!loggedInUser || !loggedInUser.email) {
+    alert("No user logged in. Redirecting to login page...");
+    window.location.href = "login.html";
+  }
+
+  let currentUserName = "";
+
+  async function loadUserData() {
+    const loadingIndicator = document.getElementById("loading-indicator");
+    
+    try {
+      console.log("Fetching user data for:", loggedInUser.email);
+      
+      const res = await fetch(`${API_URL}/user/${loggedInUser.email}`);
+      const data = await res.json();
+
+      console.log("API Response:", data);
+
+      if (data.success) {
+        document.getElementById("email-input").value = data.user.email || "";
+        currentUserName = data.user.name || "";
+        
+        // Show name section if name exists, otherwise show add button
+        if (currentUserName && currentUserName.trim() !== "") {
+          document.getElementById("name-input").value = currentUserName;
+          document.getElementById("name-section").classList.remove("hidden");
+          document.getElementById("add-name-section").classList.add("hidden");
+        } else {
+          document.getElementById("name-section").classList.add("hidden");
+          document.getElementById("add-name-section").classList.remove("hidden");
+        }
+        
+        loadingIndicator.style.display = "none";
+        console.log("Profile loaded successfully!");
+      } else {
+        loadingIndicator.textContent = "Error: " + (data.message || "Could not load profile");
+        loadingIndicator.style.color = "red";
+        console.error("API returned error:", data.message);
+      }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      loadingIndicator.textContent = "Connection error. Check if server is running.";
+      loadingIndicator.style.color = "red";
+      
+      // Show email from localStorage if available
+      if (loggedInUser.email) {
+        document.getElementById("email-input").value = loggedInUser.email;
+      }
+    }
+  }
+
+  loadUserData();
+
+  // Add Name button click
+  document.getElementById("add-name-btn").addEventListener("click", () => {
+    document.getElementById("name-modal-title").textContent = "Add Name";
+    document.getElementById("modal-name-input").value = "";
+    document.getElementById("name-modal").classList.add("show");
+  });
+
+  // Edit Name icon click
+  document.getElementById("edit-name-icon").addEventListener("click", () => {
+    document.getElementById("name-modal-title").textContent = "Edit Name";
+    document.getElementById("modal-name-input").value = currentUserName;
+    document.getElementById("name-modal").classList.add("show");
+  });
+
+  // Save Name
+  document.getElementById("save-name-btn").addEventListener("click", async () => {
+    const newName = document.getElementById("modal-name-input").value.trim();
+    
+    if (!newName) {
+      alert("Please enter a name!");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/user/update`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: loggedInUser.email,
+          name: newName,
+          phone: "" // Keep existing phone or empty
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("Name updated successfully!");
+        currentUserName = newName;
+        
+        // Update UI
+        document.getElementById("name-input").value = newName;
+        document.getElementById("name-section").classList.remove("hidden");
+        document.getElementById("add-name-section").classList.add("hidden");
+        
+        // Update localStorage
+        loggedInUser.name = newName;
+        localStorage.setItem("user", JSON.stringify(loggedInUser));
+        
+        // Close modal
+        document.getElementById("name-modal").classList.remove("show");
+      } else {
+        alert("Error updating name: " + data.message);
+      }
+    } catch (err) {
+      alert("Error connecting to server.");
+      console.error(err);
+    }
+  });
+
+  // Cancel Name modal
+  document.getElementById("cancel-name-btn").addEventListener("click", () => {
+    document.getElementById("name-modal").classList.remove("show");
+  });
+
+  // Change Password
+  document.getElementById("change-password-btn").addEventListener("click", () => {
+    document.getElementById("password-modal").classList.add("show");
+  });
+
+  document.getElementById("cancel-password-btn").addEventListener("click", () => {
+    document.getElementById("password-modal").classList.remove("show");
+  });
+
+  // Back button
+  document.getElementById("back-btn").addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+  
+  // Profile picture upload
+  document.getElementById("file-input").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const previewImg = document.getElementById("preview-image");
+        const defaultIcon = document.getElementById("default-icon");
+        
+        previewImg.src = e.target.result;
+        previewImg.style.display = "block";
+        defaultIcon.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+
+</body>
+</html>
