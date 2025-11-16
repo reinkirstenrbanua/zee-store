@@ -250,7 +250,7 @@
       <div class="total-section">
         <div class="total-row">
           <span>Total Amount:</span>
-          <span id="total-amount">$0.00</span>
+          <span id="total-amount">₱0.00</span>
         </div>
       </div>
     </div>
@@ -295,12 +295,16 @@
   </div>
 
   <script>
+    function formatPrice(price) {
+      return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     // Load order data from sessionStorage
     const orderData = JSON.parse(sessionStorage.getItem('lastOrder'));
 
     if (!orderData) {
       // If no order data, redirect to home
-      window.location.href = 'index.html';
+      window.location.href = 'home.html';
     } else {
       // Display order number and date
       document.getElementById('order-number').textContent = orderData.orderNumber;
@@ -314,13 +318,13 @@
         itemDiv.innerHTML = `
           <div class="item-name">${item.name}</div>
           <div class="item-qty">x${item.qty}</div>
-          <div class="item-price">$${(item.price * item.qty).toFixed(2)}</div>
+          <div class="item-price">₱${formatPrice(item.price * item.qty)}</div>
         `;
         itemsContainer.appendChild(itemDiv);
       });
 
       // Display total
-      document.getElementById('total-amount').textContent = '₱' + orderData.total.toFixed(2);
+      document.getElementById('total-amount').textContent = '₱' + formatPrice(orderData.total);
 
       // Display shipping information
       const addr = orderData.address;
@@ -338,7 +342,7 @@
       // Clear order data
       sessionStorage.removeItem('lastOrder');
       // Return to home page
-      window.location.href = 'index.html';
+      window.location.href = 'home.html';
     }
   </script>
 </body>
