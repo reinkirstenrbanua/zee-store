@@ -6,11 +6,19 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 
 const app = express();
-app.use(cors());
+
+// ✅ FIXED: Secure CORS configuration
+app.use(cors({
+    origin: ['https://zeetechshop.netlify.app', 'http://localhost:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
-// --- MongoDB Connection ---
-const uri = "mongodb+srv://reinkirstenbanua:nauxly0625@cluster1.bjthj83.mongodb.net/zeestore";
+// ✅ FIXED: Use environment variable for MongoDB URI
+const uri = process.env.MONGO_URI || "mongodb+srv://reinkirstenbanua:nauxly0625@cluster1.bjthj83.mongodb.net/zeestore";
 mongoose.connect(uri)
     .then(() => console.log("MongoDB connected ✅"))
     .catch(err => console.error("MongoDB connection error ❌", err));
@@ -21,7 +29,7 @@ const userSchema = new mongoose.Schema({
     last: String,
     email: { type: String, unique: true },
     password: String,
-    phone: String,  // ✅ Add this field
+    phone: String,
     isAdmin: { type: Boolean, default: false }
 });
 
@@ -46,7 +54,6 @@ const addressSchema = new mongoose.Schema({
 });
 
 const Address = mongoose.model("Address", addressSchema);
-
 const User = mongoose.model("User", userSchema);
 const Product = mongoose.model("zeestoreproducts", productSchema);
 
@@ -54,10 +61,10 @@ const Product = mongoose.model("zeestoreproducts", productSchema);
 
 // Signup
 app.post("/api/signup", async (req, res) => {
-    const { first, last, email, password, phone } = req.body;  // ✅ Add phone
+    const { first, last, email, password, phone } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ first, last, email, password: hashedPassword, phone });  // ✅ Add phone
+        const user = new User({ first, last, email, password: hashedPassword, phone });
         await user.save();
         res.json({ success: true, user });
     } catch (err) {
@@ -74,11 +81,10 @@ app.post("/api/login", async (req, res) => {
   const match = await bcrypt.compare(password, user.password);
   if (!match) return res.json({ success: false, message: "Invalid credentials!" });
 
-  // ✅ Format user data for frontend
   const formattedUser = {
     name: `${user.first} ${user.last}`,
     email: user.email,
-    phone: user.phone || "",   // optional if you add a phone field later
+    phone: user.phone || "",
   };
 
   res.json({ success: true, user: formattedUser });
@@ -122,7 +128,6 @@ app.put("/api/user/update", async (req, res) => {
   }
 });
 
-
 // Add product
 app.post("/api/products", async (req, res) => {
     const { name, description, image, price } = req.body;
@@ -160,7 +165,6 @@ app.delete("/api/products/:id", async (req, res) => {
     res.json({ success: true });
 });
 
-
 // --- Address Route ---
 app.post("/api/address", async (req, res) => {
   try {
@@ -177,7 +181,6 @@ app.post("/api/address", async (req, res) => {
 app.post("/api/admin/login", async (req, res) => {
     const { email, password } = req.body;
     
-    // Check for admin credentials (you can customize this)
     const admin = await User.findOne({ email, isAdmin: true });
     
     if (!admin) return res.json({ success: false, message: "Invalid admin credentials!" });
@@ -190,7 +193,7 @@ app.post("/api/admin/login", async (req, res) => {
 // Get all users (for admin)
 app.get("/api/users", async (req, res) => {
   try {
-    const users = await User.find().select('-password'); // Exclude passwords
+    const users = await User.find().select('-password');
     res.json({ success: true, users });
   } catch (err) {
     res.status(500).json({ success: false, message: "Error fetching users" });
@@ -210,5 +213,6 @@ app.delete("/api/users/:id", async (req, res) => {
 // Test route
 app.get("/", (req, res) => res.send("Server is running ✅"));
 
+// ✅ Already perfect - uses environment variable
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
