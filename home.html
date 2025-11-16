@@ -751,6 +751,58 @@
     border: 1px solid #f5c6cb;
   }
 
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 10px;
+  }
+
+  .quantity-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quantity-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  .quantity-btn:active {
+    transform: scale(0.95);
+  }
+
+  .quantity-display {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .quantity-label {
+    font-size: 0.95em;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 500;
+  }
+
   @media (max-width: 768px) {
     .navbar {
       padding: 10px 20px;
@@ -777,6 +829,11 @@
 
     .users-modal-content {
       width: 95%;
+    }
+
+    #cart-sidebar, #trash-sidebar {
+      width: 100%;
+      right: -100%;
     }
   }
 </style>
@@ -805,7 +862,7 @@
 
   <nav class="navbar">
     <div class="navbar-left">
-      <div class="navbar-logo">ZeE Store</div>
+      <div class="navbar-logo" style="cursor: pointer;" onclick="window.location.href='homepage.html'">ZeE Store</div>
       <div class="navbar-links">
         <a href="aboutus.html">About Us</a>
         <a href="contactus.html">Contact Us</a>
@@ -925,7 +982,21 @@
   <div id="details-modal" class="modal">
     <div class="modal-content">
       <h2 id="details-name"></h2>
-      <p id="details-desc"></p>
+      <img id="details-image" src="" alt="" style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px; margin: 15px 0;">
+      <p id="details-desc" style="margin-bottom: 20px; color: #666; line-height: 1.6;"></p>
+      <div style="font-size: 1.8em; font-weight: bold; color: #667eea; margin-bottom: 20px;">
+        ₱<span id="details-price">0.00</span>
+      </div>
+      
+      <div class="quantity-selector">
+        <button class="quantity-btn" id="details-qty-minus">−</button>
+        <div>
+          <div class="quantity-label">Quantity</div>
+          <div class="quantity-display" id="details-qty-display">1</div>
+        </div>
+        <button class="quantity-btn" id="details-qty-plus">+</button>
+      </div>
+      
       <button id="details-add-cart-btn" class="modal-btn save-btn">Add to Cart</button>
       <button id="details-close-btn" class="modal-btn cancel-btn">Close</button>
     </div>
@@ -943,12 +1014,11 @@
   </div>
 
   <script>
-    const API_URL = "http://localhost:5000/api";
+    const API_URL = "https://zee-store.onrender.com/api";;
     
     const isAdmin = localStorage.getItem("admin") !== null;
     const isUser = localStorage.getItem("user") !== null;
     
-    // CHANGED: Redirect to index.html instead of login.html
     if (!isAdmin && !isUser) {
       window.location.href = "index.html";
     }
@@ -976,6 +1046,7 @@
     let currentEditId = null;
     let userAddress = JSON.parse(localStorage.getItem("userAddress")) || null;
     let allUsers = [];
+    let detailsQuantity = 1;
 
     function formatPrice(price) {
       return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1192,6 +1263,20 @@
         existing.qty++;
       } else {
         cart.push({ ...product, qty: 1 });
+      }
+
+      updateCart();
+      document.getElementById("cart-sidebar").classList.add("open");
+    }
+
+    function addToCartWithQuantity(id, quantity) {
+      const product = products.find((p) => p._id === id);
+      const existing = cart.find((item) => item._id === id);
+
+      if (existing) {
+        existing.qty += quantity;
+      } else {
+        cart.push({ ...product, qty: quantity });
       }
 
       updateCart();
@@ -1477,12 +1562,17 @@
       const product = products.find((p) => p._id === id);
       if (!product) return;
 
+      detailsQuantity = 1;
+      
       document.getElementById("details-name").textContent = product.name;
       document.getElementById("details-desc").textContent = product.description;
+      document.getElementById("details-image").src = product.image;
+      document.getElementById("details-price").textContent = formatPrice(product.price);
+      document.getElementById("details-qty-display").textContent = detailsQuantity;
 
       const addCartBtn = document.getElementById("details-add-cart-btn");
       addCartBtn.onclick = () => {
-        addToCart(product._id);
+        addToCartWithQuantity(product._id, detailsQuantity);
         closeDetailsModal();
       };
 
@@ -1494,8 +1584,19 @@
     }
 
     document.getElementById("details-close-btn").onclick = closeDetailsModal;
+    
+    document.getElementById("details-qty-minus").onclick = () => {
+      if (detailsQuantity > 1) {
+        detailsQuantity--;
+        document.getElementById("details-qty-display").textContent = detailsQuantity;
+      }
+    };
 
-    // CHANGED: Redirect to index.html instead of login.html
+    document.getElementById("details-qty-plus").onclick = () => {
+      detailsQuantity++;
+      document.getElementById("details-qty-display").textContent = detailsQuantity;
+    };
+
     function logout() {
       if (confirm("Are you sure you want to logout?")) {
         cart = [];
